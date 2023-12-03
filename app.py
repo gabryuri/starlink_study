@@ -51,7 +51,7 @@ closest_satellite_model = api.schema_model("ClosestSatelliteModel", CLOSEST_SATE
 
 
 @api.route("/closest_satellite")
-class LastKnownLocation(Resource):
+class ClosestSatellite(Resource):
     @api.doc(description="Retrieves the closest satellite given a timestamp and a position.")
     @api.expect(closest_satellite_model)
     @api.response(HTTP_OK, "Closest Satellite found.")
