@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgis/postgis:13-3.4	
+    ports:
+      - '5432:5432'
+    restart: always
+    environment:
+      &common-env
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: blueonion_starlink
+      POSTGRES_USER: blueonion_admin
+      POSTGRES_PASSWORD: blueonion_pw
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "blueonion_starlink"]
+      interval: 10s
+      retries: 30
+
+  initialize-db:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      <<: *common-env
+    entrypoint: ["sh", "-c", "sleep 10 && python scripts/initialize_db.py"]
