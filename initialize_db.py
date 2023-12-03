@@ -14,11 +14,9 @@ logging.basicConfig(
 logging.getLogger("sqlalchemy").setLevel(logging.WARNING)
 log = logging.getLogger()
 
-
 config = DatabaseConfigurationHelper(log)
 engine = create_engine(config.database_uri, echo=False)
 Base.metadata.create_all(engine)
-
 
 ## Ingest data
 importer = JsonToRdbmsDataImporter(log, engine)
