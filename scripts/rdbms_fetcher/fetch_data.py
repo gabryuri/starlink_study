@@ -18,7 +18,6 @@ class RdbmsDataFetcher:
         self.logger.setLevel(logging.INFO)
         self.cfg = DatabaseConfigurationHelper(logger)
         self.engine = create_engine(self.cfg.database_uri, echo=False)
-        
 
     def get_last_known_location(self, object_id, timestamp):
         session = Session(bind=self.engine)
