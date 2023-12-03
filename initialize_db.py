@@ -1,15 +1,10 @@
 import logging
-import datetime
 
-from sqlalchemy import create_engine, Column, String, Boolean, DateTime, Float, PrimaryKeyConstraint
-from sqlalchemy.orm import declarative_base, Session
+from sqlalchemy import create_engine
 
 from scripts.configuration.database import DatabaseConfigurationHelper
-
-
-from models.database.starlink_positions import SatelliteLocations, Base
 from scripts.importer.import_data import JsonToRdbmsDataImporter
-import logging
+from models.database.starlink_positions import SatelliteLocations, Base
 
 logging.basicConfig(
     format="[%(levelname)s] [%(asctime)s][%(filename)-15s][%(lineno)4d] : %(message)s",
@@ -21,10 +16,7 @@ log = logging.getLogger()
 
 
 config = DatabaseConfigurationHelper(log)
-# DATABASE_URI = "postgresql+psycopg2://blueonion:labs@localhost:5432/blueonion_starlink"
-print(config.database_uri)
 engine = create_engine(config.database_uri, echo=False)
-# engine = create_engine(DATABASE_URI, echo=False)
 Base.metadata.create_all(engine)
 
 

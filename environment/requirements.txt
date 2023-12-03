@@ -3,3 +3,4 @@ GeoAlchemy2==0.14.2
 psycopg2-binary==2.9.7
 pydantic==2.5.2
 ijson==3.2.0.post0
+flask-restx==1.2.0

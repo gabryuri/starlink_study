@@ -1,19 +1,13 @@
-import logging
 from flask import Flask
 from flask_restx import Resource, Api
-
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 
-from models.database.starlink_positions import SatelliteLocations
 from models.api.data_models import (
     LastKnownPositionDataModel,
     ClosestSatelliteDataModel,
     InvalidTimestampFormatError,
 )
 from models.api.schemas.api_schemas import LAST_KNOWN_POS_SCHEMA, CLOSEST_SATELLITE_SCHEMA
-
 from scripts.rdbms_fetcher.fetch_data import RdbmsDataFetcher
 
 HTTP_OK = 200
@@ -22,13 +16,12 @@ HTTP_BAD_REQUEST = 400
 
 
 app = Flask(__name__)
-api = Api(app, title="Data Contracts API", version="1.0", description="Data Contracts Access layer.")
+api = Api(app, title="Starlink time series API", version="1.0", description="Blue Onion Labs case")
 
+expected_exceptions = (InvalidTimestampFormatError, NoResultFound)
 
 fetcher = RdbmsDataFetcher(logger=app.logger)
-
 last_known_position_model = api.schema_model("LastKnownPositionModel", LAST_KNOWN_POS_SCHEMA)
-expected_exceptions = (InvalidTimestampFormatError, NoResultFound)
 
 
 @api.route("/last_known_location")

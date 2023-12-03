@@ -1,5 +1,6 @@
-from pydantic import BaseModel, validator
 from datetime import datetime
+
+from pydantic import BaseModel, validator
 
 
 class InvalidTimestampFormatError(Exception):
@@ -29,11 +30,19 @@ class ClosestSatelliteDataModel(BaseModel):
     @validator("latitude")
     def validate_latitude(cls, value):
         if value is not None and not (-90 <= value <= 90):
-            raise ValueError("Latitude must be between -90 and 90 or null.")
+            raise ValueError("Latitude must be between -90 and 90")
         return value
 
     @validator("longitude")
     def validate_longitude(cls, value):
         if value is not None and not (-180 <= value <= 180):
-            raise ValueError("Longitude must be between -180 and 180 or null.")
+            raise ValueError("Longitude must be between -180 and 180")
         return value
+
+    @validator("timestamp")
+    def validate_timestamp(cls, v):
+        try:
+            datetime.strptime(v, "%Y-%m-%dT%H:%M:%S")
+            return v
+        except ValueError:
+            raise InvalidTimestampFormatError()

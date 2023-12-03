@@ -26,4 +26,25 @@ services:
       - postgres
     environment:
       <<: *common-env
-    entrypoint: ["sh", "-c", "sleep 10 && python scripts/initialize_db.py"]
+    entrypoint: ["sh", "-c", "sleep 10 && python initialize_db.py"]
+
+  flask-app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      <<: *common-env
+    volumes:
+      - .:/app
+    command: flask run --host=0.0.0.0
+
+  # flask-api:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - postgres
+  #     - initialize-db
+  #   environment:
+  #     <<: *common-env
+  #   entrypoint: ["python3", "app.py"]

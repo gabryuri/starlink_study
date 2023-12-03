@@ -1,4 +1,5 @@
 from typing import Optional
+
 from pydantic import BaseModel, Field, computed_field, validator
 from geoalchemy2.functions import ST_MakePoint
 
