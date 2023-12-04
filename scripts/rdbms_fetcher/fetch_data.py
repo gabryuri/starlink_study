@@ -11,7 +11,7 @@ from models.database.starlink_positions import SatelliteLocations
 
 class RdbmsDataFetcher:
     """
-    Manages the ORM interaction between the API routes and our Postgresql (in this case) database. 
+    Manages the ORM interaction between the API routes and our Postgresql (in this case) database.
     Can also be used with different RDBMS engines.
 
     Attributes:
@@ -24,6 +24,7 @@ class RdbmsDataFetcher:
         get_closest_satellite: Finds the nearest satellite to a given latitude and longitude at a specific timestamp.
 
     """
+
     def __init__(self, logger) -> None:
         self.logger = logger.getChild("RdbmsDataFetcher")
         self.logger.setLevel(logging.INFO)
@@ -42,7 +43,7 @@ class RdbmsDataFetcher:
             dict: A dictionary containing the database row of the last known position of the object.
 
         Raises:
-            NoResultFound: If no position data is found for the given object_id and timestamp. 
+            NoResultFound: If no position data is found for the given object_id and timestamp.
             To be used while outputting Error 404 in Flask
         """
         session = Session(bind=self.engine)
@@ -74,7 +75,7 @@ class RdbmsDataFetcher:
             dict: A dictionary containing details of the closest satellite.
 
         Raises:
-            NoResultFound: If no satellite is found close to the specified location at the given timestamp. 
+            NoResultFound: If no satellite is found close to the specified location at the given timestamp.
             To be used while outputting Error 404 in Flask
         """
         session = Session(bind=self.engine)

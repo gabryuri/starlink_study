@@ -86,6 +86,5 @@ class ClosestSatellite(Resource):
             api.abort(HTTP_BAD_REQUEST, str(ex))
 
 
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

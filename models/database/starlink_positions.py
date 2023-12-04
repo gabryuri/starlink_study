@@ -11,8 +11,8 @@ class SatelliteLocations(Base):
     """
     SQLAlchemy model representing satellite location data in a database table.
 
-    It stores geographic locations of satellites along with their corresponding details. 
-    The 'satellite_locations' table contains: 
+    It stores geographic locations of satellites along with their corresponding details.
+    The 'satellite_locations' table contains:
         object_id (the satellite's unique identifier),
         creation date,
         geographic location,
@@ -20,6 +20,7 @@ class SatelliteLocations(Base):
         latitude,
         is_lat_long_complete, a flag to indicate if both latitude and longitude are complete.
     """
+
     __tablename__ = "satellite_locations"
     object_id = Column(String(255), primary_key=True)
     creation_date = Column(DateTime, default=datetime.utcnow, primary_key=True)

@@ -8,10 +8,11 @@ from pydantic import BaseModel
 
 from models.database.starlink_positions import Base
 
+
 class JsonToRdbmsDataImporter:
     """
     This class is responsible for importing JSON data into a relational database management system (RDBMS).
-    It reads JSON data from a file, converts it into model objects, 
+    It reads JSON data from a file, converts it into model objects,
     and then inserts the data into a specified database table in batches.
 
     Inputs:
@@ -24,8 +25,9 @@ class JsonToRdbmsDataImporter:
         __insert_data_to_rdbms: Performs the actual insertion of data into the RDBMS.
         __instantiate_model_object: Instantiates a Pydantic model object from a dictionary.
         __fetch_table_primary_key: Retrieves the primary key(s) of a given table.
-        
+
     """
+
     def __init__(self, logger, engine, batch_size=300) -> None:
         self.logger = logger
         self.engine = engine
@@ -35,7 +37,7 @@ class JsonToRdbmsDataImporter:
 
     def import_json_data_into_table(self, data_file_path: str, table: Type[Base], model: BaseModel) -> None:
         """
-        Parses JSON data from a file using Pydantic models and handles the batched 
+        Parses JSON data from a file using Pydantic models and handles the batched
         insertion into a specified database table.
 
         Parameters:

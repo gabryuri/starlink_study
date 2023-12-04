@@ -18,6 +18,7 @@ class SpaceTrack(BaseModel):
     Class Config:
         populate_by_name (bool): Configuration to allow Pydantic to enable our aliasing strategy.
     """
+
     object_id: str = Field(..., alias="OBJECT_ID")
     creation_date: str = Field(..., alias="CREATION_DATE")
 
@@ -44,6 +45,7 @@ class SatelliteData(BaseModel):
         validate_latitude: Validates the latitude value to ensure it's within the valid range or null.
         validate_longitude: Validates the longitude value to ensure it's within the valid range or null.
     """
+
     spaceTrack: SpaceTrack
     latitude: Optional[float]
     longitude: Optional[float]

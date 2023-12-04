@@ -21,6 +21,7 @@ class LastKnownLocationDataModel(BaseModel):
     Methods:
         validate_timestamp: Validates that the timestamp is in the correct format (YYYY-MM-DDTHH:MM:SS).
     """
+
     object_id: str
     timestamp: str
 
@@ -45,8 +46,8 @@ class LastKnownLocationResponseDataModel(BaseModel):
 
     Methods:
         format_creation_date: Formats the creation date to a specific string format (YYYY-MM-DDTHH:MM:SS).
-        
-    Note: using model_dump() will not convert to the desired timestamp format. 
+
+    Note: using model_dump() will not convert to the desired timestamp format.
     Use model_dump_json() instead and re convert to dict.
     """
 
@@ -74,6 +75,7 @@ class ClosestSatelliteDataModel(BaseModel):
         validate_longitude: Validates that the longitude is within the range of -180 to 180.
         validate_timestamp: Validates that the timestamp is in the correct format (YYYY-MM-DDTHH:MM:SS).
     """
+
     timestamp: str
     latitude: float
     longitude: float
@@ -112,9 +114,10 @@ class ClosestSatelliteResponseDataModel(BaseModel):
     Methods:
         format_creation_date: Formats the creation date to a specific string format (YYYY-MM-DD HH:MM:SS).
 
-    Note: using model_dump() will not convert to the desired timestamp format. 
+    Note: using model_dump() will not convert to the desired timestamp format.
     Use model_dump_json instead and re convert to dict.
     """
+
     object_id: str
     creation_date: datetime
     latitude: float
