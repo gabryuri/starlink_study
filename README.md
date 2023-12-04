@@ -107,9 +107,10 @@ Expected output:
 The interface exposed is a simple, yet effective Flask API. Its Swagger can be used to query data from the two existing routes. 
 
 ## Final considerations 
-- tests
+- Tests
 - Not using initdb sql commands but ORM instead 
-- modelling with pydantic 
-  - for input validations and enrichment - tradeoffs with performance on the input or on the output 
+- Pydantic Modelling
+  - Input validations and enrichment:
+    -  tradeoffs with performance on the input or on the output 
 - instead of harvesine, using PostGIS
   - no code in application side to solve for the closest satellite
