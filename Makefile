@@ -20,7 +20,7 @@ lint:
 
 .PHONY: test
 test:
-	python -m pytest tests
+	python3 -m pytest --disable-warnings
 
 
 .PHONY: deploy up initlogs openbrowser 

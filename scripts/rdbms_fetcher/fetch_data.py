@@ -1,13 +1,12 @@
-from typing import Type
 import logging
-import ijson
+
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
-from geoalchemy2.functions import ST_MakePoint, ST_SetSRID, ST_Distance
 from sqlalchemy.exc import NoResultFound
-from models.database.starlink_positions import Base
+from geoalchemy2.functions import ST_MakePoint, ST_SetSRID, ST_Distance
+
 from scripts.configuration.database import DatabaseConfigurationHelper
-from models.database.starlink_positions import SatelliteLocations, Base
+from models.database.starlink_positions import SatelliteLocations
 
 
 class RdbmsDataFetcher:
@@ -33,7 +32,6 @@ class RdbmsDataFetcher:
         else:
             raise NoResultFound("No position found for the given object_id and timestamp")
 
-
     def get_closest_satellite(self, timestamp, latitude, longitude):
         session = Session(bind=self.engine)
         self.logger.info("Fetching closest satellite")
@@ -50,4 +48,3 @@ class RdbmsDataFetcher:
             return closest_satellite.to_dict()
         else:
             raise NoResultFound("No position found for the given object_id and timestamp")
-

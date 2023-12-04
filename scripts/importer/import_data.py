@@ -4,10 +4,9 @@ import ijson
 from sqlalchemy.orm import Session
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.inspection import inspect
+from pydantic import BaseModel
 
-from models.json_input.satellite_position import SatelliteData
 from models.database.starlink_positions import Base
-
 
 class JsonToRdbmsDataImporter:
     def __init__(self, logger, engine, batch_size=300) -> None:
@@ -16,7 +15,7 @@ class JsonToRdbmsDataImporter:
         self.engine = engine
         self.session = Session(bind=self.engine)
 
-    def insert_json_data_into_table(self, data_file_path: str, table: Type[Base]) -> None:
+    def insert_json_data_into_table(self, data_file_path: str, table: Type[Base], model: BaseModel) -> None:
         self.logger.info(f"Beginning to parse {data_file_path} json elements.")
         with open(data_file_path, "r") as json_file:
             json_content = ijson.items(json_file, "item")
@@ -24,7 +23,7 @@ class JsonToRdbmsDataImporter:
             values_to_insert = []
             total_records = 0
             for element in json_content:
-                satellite_obj = self.__instantiate_satellite_position_object(element)
+                satellite_obj = self.__instantiate_model_object(model, element)
                 values_to_insert.append(satellite_obj.dict())
 
                 total_records += 1
@@ -45,8 +44,8 @@ class JsonToRdbmsDataImporter:
         self.session.execute(conflict_stmt)
         self.session.commit()
 
-    def __instantiate_satellite_position_object(self, element: dict) -> SatelliteData:
-        satellite_obj = SatelliteData.model_validate(element)
+    def __instantiate_model_object(self, model: BaseModel, element: dict) -> BaseModel:
+        satellite_obj = model.model_validate(element)
         return satellite_obj
 
     def __fetch_table_primary_key(self, table: Type[Base]) -> list[str]:

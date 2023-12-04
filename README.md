@@ -15,7 +15,7 @@ Three containers will be created:
 >A chrome tab will also be opened (if you're in linux!)
 
 ## Querying data
-> **Important:** Timestamp must be passed with the exact format  ` %Y-%m-%dT%H:%M:%S`
+> **Important:** Timestamp must be passed with the exact format  `%Y-%m-%dT%H:%M:%S`
 ### Closest satellite
 The closest satellite on a given moment can be queried through POST request against the  http://127.0.0.1:5000/closest_satellite route.
 
@@ -106,7 +106,7 @@ Expected output:
 ##  Flask API
 The interface exposed is a simple, yet effective Flask API. Its Swagger can be used to query data from the two existing routes. 
 
-# Final considerations 
+## Final considerations 
 - tests
 - Not using initdb sql commands but ORM instead 
 - modelling with pydantic 

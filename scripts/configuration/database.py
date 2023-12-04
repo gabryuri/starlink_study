@@ -1,6 +1,5 @@
 import os
 
-
 def load_required_env(env_name: str) -> str:
     """
     Loads a required environment variable.

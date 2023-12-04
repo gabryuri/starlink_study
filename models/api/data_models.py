@@ -21,16 +21,18 @@ class LastKnownLocationDataModel(BaseModel):
             return v
         except ValueError:
             raise InvalidTimestampFormatError()
-        
+
+
 class LastKnownLocationResponseDataModel(BaseModel):
     object_id: str
     creation_date: datetime
     latitude: Optional[float]
     longitude: Optional[float]
 
-    @validator('creation_date', pre=True)
+    @validator("creation_date", pre=True)
     def format_creation_date(cls, value):
         return value.strftime("%Y-%m-%dT%H:%M:%S")
+
 
 class ClosestSatelliteDataModel(BaseModel):
     timestamp: str
@@ -57,12 +59,13 @@ class ClosestSatelliteDataModel(BaseModel):
         except ValueError:
             raise InvalidTimestampFormatError()
 
+
 class ClosestSatelliteResponseDataModel(BaseModel):
     object_id: str
     creation_date: datetime
     latitude: float
-    longitude: float 
+    longitude: float
 
-    @validator('creation_date', pre=True)
+    @validator("creation_date", pre=True)
     def format_creation_date(cls, value):
-        return value.strftime('%Y-%m-%d %H:%M:%S')
+        return value.strftime("%Y-%m-%d %H:%M:%S")

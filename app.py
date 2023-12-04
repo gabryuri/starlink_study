@@ -1,4 +1,4 @@
-import json 
+import json
 
 from flask import Flask, jsonify
 from flask_restx import Resource, Api
@@ -9,7 +9,7 @@ from models.api.data_models import (
     LastKnownLocationResponseDataModel,
     ClosestSatelliteDataModel,
     ClosestSatelliteResponseDataModel,
-    InvalidTimestampFormatError
+    InvalidTimestampFormatError,
 )
 from models.api.schemas.api_schemas import LAST_KNOWN_POS_SCHEMA, CLOSEST_SATELLITE_SCHEMA
 from scripts.rdbms_fetcher.fetch_data import RdbmsDataFetcher
