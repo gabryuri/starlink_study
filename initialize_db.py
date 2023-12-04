@@ -21,6 +21,6 @@ Base.metadata.create_all(engine)
 
 ## Ingest data
 importer = JsonToRdbmsDataImporter(log, engine)
-satellite_position_objects = importer.insert_json_data_into_table(
+satellite_position_objects = importer.import_json_data_into_table(
     data_file_path="data/starlink_historical_data.json", table=SatelliteLocations, model=SatelliteData
 )

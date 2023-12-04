@@ -11,13 +11,7 @@ def load_required_env(env_name: str) -> str:
 
 
 class DatabaseConfigurationHelper:
-    class NecessaryParameterMissing(Exception):
-        def __init__(self, parameter):
-            self.message = f"Configuration fetch failed. Necessary environment variable {parameter} is not set."
-            super().__init__(self.message)
-
-    def __init__(self, logger) -> None:
-        """
+    """
         A helper class for fetching and constructing database configuration details from environment variables.
 
         This class reads database configuration parameters such as username, password, host, port, and database name
@@ -33,7 +27,13 @@ class DatabaseConfigurationHelper:
             logger = logging.getLogger()
             config_helper = DatabaseConfigurationHelper(logger)
             db_uri = config_helper.database_uri
-        """
+    """
+    class NecessaryParameterMissing(Exception):
+        def __init__(self, parameter):
+            self.message = f"Configuration fetch failed. Necessary environment variable {parameter} is not set."
+            super().__init__(self.message)
+
+    def __init__(self, logger) -> None:
         self.logger = logger
         self.fetch_configurations()
 
