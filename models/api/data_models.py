@@ -30,7 +30,7 @@ class LastKnownLocationResponseDataModel(BaseModel):
 
     @validator('creation_date', pre=True)
     def format_creation_date(cls, value):
-        return value.strftime('%Y-%m-%d %H:%M:%S')
+        return value.strftime("%Y-%m-%dT%H:%M:%S")
 
 class ClosestSatelliteDataModel(BaseModel):
     timestamp: str

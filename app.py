@@ -22,7 +22,7 @@ HTTP_BAD_REQUEST = 400
 app = Flask(__name__)
 api = Api(app, title="Starlink time series API", version="1.0", description="Blue Onion Labs case")
 
-expected_exceptions = (InvalidTimestampFormatError, NoResultFound)
+expected_exceptions = (InvalidTimestampFormatError, NoResultFound, ValueError)
 
 fetcher = RdbmsDataFetcher(logger=app.logger)
 last_known_position_model = api.schema_model("LastKnownPositionModel", LAST_KNOWN_POS_SCHEMA)
