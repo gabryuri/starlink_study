@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, validator
 
@@ -9,7 +10,7 @@ class InvalidTimestampFormatError(Exception):
         super().__init__(self.message)
 
 
-class LastKnownPositionDataModel(BaseModel):
+class LastKnownLocationDataModel(BaseModel):
     object_id: str
     timestamp: str
 
@@ -20,7 +21,16 @@ class LastKnownPositionDataModel(BaseModel):
             return v
         except ValueError:
             raise InvalidTimestampFormatError()
+        
+class LastKnownLocationResponseDataModel(BaseModel):
+    object_id: str
+    creation_date: datetime
+    latitude: Optional[float]
+    longitude: Optional[float]
 
+    @validator('creation_date', pre=True)
+    def format_creation_date(cls, value):
+        return value.strftime('%Y-%m-%d %H:%M:%S')
 
 class ClosestSatelliteDataModel(BaseModel):
     timestamp: str
@@ -46,3 +56,13 @@ class ClosestSatelliteDataModel(BaseModel):
             return v
         except ValueError:
             raise InvalidTimestampFormatError()
+
+class ClosestSatelliteResponseDataModel(BaseModel):
+    object_id: str
+    creation_date: datetime
+    latitude: float
+    longitude: float 
+
+    @validator('creation_date', pre=True)
+    def format_creation_date(cls, value):
+        return value.strftime('%Y-%m-%d %H:%M:%S')

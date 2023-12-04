@@ -5,10 +5,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from geoalchemy2.functions import ST_MakePoint, ST_SetSRID, ST_Distance
 from sqlalchemy.exc import NoResultFound
-from models.json_input.satellite_position import SatelliteData
 from models.database.starlink_positions import Base
 from scripts.configuration.database import DatabaseConfigurationHelper
-
 from models.database.starlink_positions import SatelliteLocations, Base
 
 
@@ -30,10 +28,11 @@ class RdbmsDataFetcher:
             .first()
         )
 
-        if last_known_position is None:
+        if last_known_position is not None:
+            return last_known_position.to_dict()
+        else:
             raise NoResultFound("No position found for the given object_id and timestamp")
 
-        return f"{last_known_position.latitude} and {last_known_position.longitude} "
 
     def get_closest_satellite(self, timestamp, latitude, longitude):
         session = Session(bind=self.engine)
@@ -47,7 +46,8 @@ class RdbmsDataFetcher:
             .first()
         )
 
-        if closest_satellite is None:
+        if closest_satellite is not None:
+            return closest_satellite.to_dict()
+        else:
             raise NoResultFound("No position found for the given object_id and timestamp")
 
-        return f"{closest_satellite.latitude} and {closest_satellite.longitude} and {closest_satellite.object_id} "

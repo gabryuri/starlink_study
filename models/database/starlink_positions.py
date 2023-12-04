@@ -17,3 +17,6 @@ class SatelliteLocations(Base):
     is_lat_long_complete = Column(Boolean)
 
     __table_args__ = (PrimaryKeyConstraint("object_id", "creation_date"),)
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

@@ -1,11 +1,15 @@
-from flask import Flask
+import json 
+
+from flask import Flask, jsonify
 from flask_restx import Resource, Api
 from sqlalchemy.exc import NoResultFound
 
 from models.api.data_models import (
-    LastKnownPositionDataModel,
+    LastKnownLocationDataModel,
+    LastKnownLocationResponseDataModel,
     ClosestSatelliteDataModel,
-    InvalidTimestampFormatError,
+    ClosestSatelliteResponseDataModel,
+    InvalidTimestampFormatError
 )
 from models.api.schemas.api_schemas import LAST_KNOWN_POS_SCHEMA, CLOSEST_SATELLITE_SCHEMA
 from scripts.rdbms_fetcher.fetch_data import RdbmsDataFetcher
@@ -34,10 +38,14 @@ class LastKnownLocation(Resource):
     def post(self):
         try:
             payload = api.payload
-            validated_data = LastKnownPositionDataModel.model_validate(payload)
+            validated_data = LastKnownLocationDataModel.model_validate(payload)
 
             location = fetcher.get_last_known_location(validated_data.object_id, validated_data.timestamp)
-            return location
+
+            validated_response = LastKnownLocationResponseDataModel.model_validate(location)
+            # Using model_dump_json ensures the conversion between datetime and a formatted string.
+            response_object = json.loads(validated_response.model_dump_json())
+            return jsonify(response_object)
 
         except expected_exceptions as ex:
             api.abort(HTTP_BAD_REQUEST, str(ex))
@@ -65,7 +73,10 @@ class ClosestSatellite(Resource):
             closest_satellite = fetcher.get_closest_satellite(
                 validated_data.timestamp, validated_data.latitude, validated_data.longitude
             )
-            return closest_satellite
+            validated_response = ClosestSatelliteResponseDataModel.model_validate(closest_satellite)
+            # Using model_dump_json ensures the conversion between datetime and a formatted string.
+            response_object = json.loads(validated_response.model_dump_json())
+            return jsonify(response_object)
 
         except expected_exceptions as ex:
             api.abort(HTTP_BAD_REQUEST, str(ex))
